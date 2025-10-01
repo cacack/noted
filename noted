@@ -105,7 +105,7 @@ CONFIG_FILE=$HOME/.notedconfig
 # name files like this
 NOTED_FILE_NAME_DATE_FORMAT="+%Y-%m-%d"
 # timestamp entries within the files like this
-NOTED_TIMESTAMP_FORMAT="+%H:%M:%S UTC"
+NOTED_TIMESTAMP_FORMAT="+%H:%M:%S %Z"
 NOTED_TEMPLATE_FILE=""
 # keep the directory where notes are stored here
 NOTED_MARKDOWN_HOME=$HOME/Documents/notes

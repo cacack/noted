@@ -84,7 +84,7 @@ Second, `noted` also creates the following _automatic entry:_
 
 ```markdown
 ---
-8:00:44 UTC
+8:00:44 PDT
 
 # Begin creating Foo
 
@@ -151,7 +151,7 @@ The following default values are configured.
 | :-- | :-- | :-- |
 | NOTED_MARKDOWN_HOME | The place where markdown files are automatically generated. | `$HOME/Documents/noted` |
 | NOTED_FILE_NAME_DATE_FORMAT | The date format string used as the file name for new notes. | `"+%Y-%m-%d"` | 
-| NOTED_TIMESTAMP_FORMAT | The timestamp format for the timestamp placed on new entries. | `"+%H:%M:%S UTC"` |
+| NOTED_TIMESTAMP_FORMAT | The timestamp format for the timestamp placed on new entries. | `"+%H:%M:%S %Z"` |
 | NOTED_TEMPLATE_FILE | A file containing a Markdown-formatted entry template to use. | `""` <br /> (It is empty by default. Which means the script's own default template will be used.) |
 | NOTED_TODO_MARKER | A string that indicates the following text is a TODO item. This text is searched for by the `todos` command. | `TODO` |
 
@@ -166,8 +166,8 @@ For example, saving the following contents into `$HOME/.notedconfig` will alter 
 NOTED_MARKDOWN_HOME=$HOME/Documents/mynotes
 # Use month-date-year instead of year-month-date as the file names
 NOTED_FILE_NAME_DATE_FORMAT="+%m-%d-%Y"
-# Use Pacific time
-NOTED_TIMESTAMP_FORMAT="+%H:%M:%S Pacific"
+# Use 12-hour time format with timezone
+NOTED_TIMESTAMP_FORMAT="+%I:%M:%S %p %Z"
 # Use my own template file
 NOTED_TEMPLATE_FILE=$HOME/Documents/mynotes/template.md
 NOTED_TODO_MARKER="REMINDER:"
