@@ -6,21 +6,6 @@ set -e
 # START FUNCTIONS (alphabetical order)
 #
 
-checkForEnvVariable() {
-  varval=${!1}
-  if [ ! "$(echo $varval)" ]; then
-    cat <<EOF
-
-ERROR
-
-    A required environment variable is not available:
-    $1
-
-EOF
-    exit 1
-  fi
-}
-
 create() {
   newEntry() {
     headerText="$@"
@@ -61,6 +46,10 @@ EOF
 }
 
 edit() {
+  if [ ! -f "${markdownFile}" ]; then
+    echo "Error: File does not exist: ${markdownFile}"
+    exit 1
+  fi
   open "${markdownFile}"
 }
 
@@ -75,6 +64,10 @@ markdownFile() {
 }
 
 ngrep() {
+  if [ ! -d "${NOTED_MARKDOWN_HOME}" ]; then
+    echo "Error: Notes directory does not exist: ${NOTED_MARKDOWN_HOME}"
+    exit 1
+  fi
   grep --recursive "$@" "${NOTED_MARKDOWN_HOME}"
 }
 
@@ -85,13 +78,6 @@ outputConfig() {
   echo "NOTED_TIMESTAMP_FORMAT=${NOTED_TIMESTAMP_FORMAT}"
   echo "NOTED_TEMPLATE_FILE=${NOTED_TEMPLATE_FILE:-<<DEFAULT>>}"
   echo "NOTED_TODO_MARKER=${NOTED_TODO_MARKER}"
-}
-
-validate() {
-  if [ -z "$1" ]; then
-    echo "${2}"
-    exit 1
-  fi
 }
 
 version() {
@@ -151,8 +137,13 @@ elif [[ "${subcommand}" == "grep" ]]; then
   shift
   ngrep "$@"
 elif [[ "${subcommand}" == 'todos' ]]; then
-  fgrep -rH "${NOTED_TODO_MARKER}" "${NOTED_MARKDOWN_HOME}" | fgrep -v ~~
-  if [ 1 == $? ]; then echo "Congratulations! No TODOs found!"; fi
+  if [ ! -d "${NOTED_MARKDOWN_HOME}" ]; then
+    echo "Error: Notes directory does not exist: ${NOTED_MARKDOWN_HOME}"
+    exit 1
+  fi
+  if ! fgrep -rH "${NOTED_TODO_MARKER}" "${NOTED_MARKDOWN_HOME}" 2>/dev/null | fgrep -v ~~; then
+    echo "Congratulations! No TODOs found!"
+  fi
   echo
 else
   # create / default
